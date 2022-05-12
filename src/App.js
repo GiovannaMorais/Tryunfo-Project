@@ -1,5 +1,6 @@
 import React from 'react';
 import Form from './components/Form';
+import Card from './components/Card';
 
 const initialState = {
   name: '',
@@ -51,6 +52,16 @@ class App extends React.Component {
           onInputChange={ this.handleChange }
           onSaveButtonClick={ this.onSaveButtonClick }
 
+        />
+        <Card
+          cardName={ name }
+          cardDescription={ description }
+          cardAttr1={ attr1 }
+          cardAttr2={ attr2 }
+          cardAttr3={ attr3 }
+          cardImage={ image }
+          cardRare={ rare }
+          cardTrunfo={ cardTrunfo }
         />
       </div>
     );

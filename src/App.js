@@ -3,6 +3,7 @@ import Form from './components/Form';
 import Card from './components/Card';
 
 const initialState = {
+  cards: [],
   name: '',
   description: '',
   attr1: 0,
@@ -26,7 +27,34 @@ class App extends React.Component {
     this.setState(() => ({ [name]: value }), this.validateSaveButton);
   }
 
-  onSaveButtonClick = () => {}
+  onSaveButtonClick = () => {
+    const { name, description, image, rare, attr3, attr2, attr1, trunfo } = this.state;
+    const objeto = {
+      name,
+      description,
+      image,
+      rare,
+      attr3,
+      attr2,
+      attr1,
+      trunfo,
+    };
+    this.setState(
+      ({ cards }) => ({ cards: [...cards, objeto] }),
+      () => {
+        this.setState(() => ({
+          name: '',
+          description: '',
+          image: '',
+          rare: 'normal',
+          attr1: 0,
+          attr2: 0,
+          attr3: 0,
+        }));
+      },
+    );
+    // console.log('objeto',objeto);
+  };
 
   validateSaveButton = () => {
     const { name, description, attr1, attr2, attr3, image, rare } = this.state;

@@ -52,7 +52,7 @@ class App extends React.Component {
           attr2: 0,
           attr3: 0,
         }));
-        if (trunfo) this.setState(() => ({ hasTrunfo: true }));
+        if (trunfo) this.setState(() => ({ hasTrunfo: true, trunfo: false }));
       },
     );
     // console.log('objeto',objeto);
@@ -76,42 +76,50 @@ class App extends React.Component {
     }
   }
 
-  render() {
-    const { name, description, attr1, attr2, attr3, image, rare,
-      hasTrunfo, trunfo, isSaveButtonDisabled, cards } = this.state;
-    return (
-      <div>
-        <h1>Tryunfo</h1>
-        <Form
-          cardName={ name }
-          cardDescription={ description }
-          cardAttr1={ attr1 }
-          cardAttr2={ attr2 }
-          cardAttr3={ attr3 }
-          cardImage={ image }
-          cardRare={ rare }
-          cardTrunfo={ trunfo }
-          hasTrunfo={ hasTrunfo }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          onInputChange={ this.handleChange }
-          onSaveButtonClick={ this.onSaveButtonClick }
+HandleDelete =(index) => {
+  const { cards } = this.state;
+  const filtrarCard = cards.filter((_, i) => i !== index);
+  const card = cards.find((_, i) => i === index);
+  if (card.trunfo) this.setState(() => ({ hasTrunfo: false }));
+  this.setState(() => ({ cards: filtrarCard }));
+}
 
-        />
-        <Card
-          cardName={ name }
-          cardDescription={ description }
-          cardAttr1={ attr1 }
-          cardAttr2={ attr2 }
-          cardAttr3={ attr3 }
-          cardImage={ image }
-          cardRare={ rare }
-          cardTrunfo={ trunfo }
-        />
-        {/* {cards.map((card, index) => <Card key={ index } { ...card } />)} */}
-        <AllCards cards={ cards } />
-      </div>
-    );
-  }
+render() {
+  const { name, description, attr1, attr2, attr3, image, rare,
+    hasTrunfo, trunfo, isSaveButtonDisabled, cards } = this.state;
+  return (
+    <div>
+      <h1>Tryunfo</h1>
+      <Form
+        cardName={ name }
+        cardDescription={ description }
+        cardAttr1={ attr1 }
+        cardAttr2={ attr2 }
+        cardAttr3={ attr3 }
+        cardImage={ image }
+        cardRare={ rare }
+        cardTrunfo={ trunfo }
+        hasTrunfo={ hasTrunfo }
+        isSaveButtonDisabled={ isSaveButtonDisabled }
+        onInputChange={ this.handleChange }
+        onSaveButtonClick={ this.onSaveButtonClick }
+
+      />
+      <Card
+        cardName={ name }
+        cardDescription={ description }
+        cardAttr1={ attr1 }
+        cardAttr2={ attr2 }
+        cardAttr3={ attr3 }
+        cardImage={ image }
+        cardRare={ rare }
+        cardTrunfo={ trunfo }
+      />
+      {/* {cards.map((card, index) => <Card key={ index } { ...card } />)} */}
+      <AllCards cards={ cards } HandleDelete={ this.HandleDelete } />
+    </div>
+  );
+}
 }
 
 export default App;

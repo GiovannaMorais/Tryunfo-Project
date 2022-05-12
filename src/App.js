@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import AllCards from './components/AllCards';
 
 const initialState = {
   cards: [],
@@ -77,7 +78,7 @@ class App extends React.Component {
 
   render() {
     const { name, description, attr1, attr2, attr3, image, rare,
-      hasTrunfo, trunfo, isSaveButtonDisabled } = this.state;
+      hasTrunfo, trunfo, isSaveButtonDisabled, cards } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -106,6 +107,8 @@ class App extends React.Component {
           cardRare={ rare }
           cardTrunfo={ trunfo }
         />
+        {/* {cards.map((card, index) => <Card key={ index } { ...card } />)} */}
+        <AllCards cards={ cards } />
       </div>
     );
   }

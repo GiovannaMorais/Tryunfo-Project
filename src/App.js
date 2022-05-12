@@ -10,7 +10,7 @@ const initialState = {
   attr3: 0,
   image: '',
   rare: '',
-  isSaveButtonDisabled: false,
+  isSaveButtonDisabled: true,
   hasTrunfo: false,
   cardTrunfo: true,
 };
@@ -23,14 +23,28 @@ class App extends React.Component {
   handleChange =({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState(
-      {
-        [name]: value,
-      },
-    );
+    this.setState(() => ({ [name]: value }), this.validateSaveButton);
   }
 
   onSaveButtonClick = () => {}
+
+  validateSaveButton = () => {
+    const { name, description, attr1, attr2, attr3, image, rare } = this.state;
+    let attr = true;
+
+    if (Number((attr1) + (attr2) + (attr3) > ('210'))) {
+      attr = false;
+    }
+    if (Number(attr1 > '90' || attr1 < 0)) attr = false;
+    if (Number(attr2 > '90' || attr2 < 0)) attr = false;
+    if (Number(attr3 > '90' || attr3 < 0)) attr = false;
+
+    if (name && description && image && rare && attr) {
+      this.setState(() => ({ isSaveButtonDisabled: false }));
+    } else {
+      this.setState(() => ({ isSaveButtonDisabled: true }));
+    }
+  }
 
   render() {
     const { name, description, attr1, attr2, attr3, image, rare,

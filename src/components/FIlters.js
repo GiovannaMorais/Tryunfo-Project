@@ -15,6 +15,7 @@ class Filters extends React.Component {
             data-testid="name-filter"
             name="nameFilter"
             value={ nameFilter }
+            disabled={ trunfoFilter }
             onChange={ handleChange }
           />
         </label>
@@ -26,6 +27,7 @@ class Filters extends React.Component {
             defaultChecked="todas"
             value={ rarityFilter }
             onChange={ handleChange }
+            disabled={ trunfoFilter }
           >
 
             <option value="todas">todas</option>

@@ -5,12 +5,14 @@ import Card from './Card';
 class AllCards extends React.Component {
   RarityAndTrunfoFilter=() => {
     const { cards, nameFilter, rarityFilter, trunfoFilter } = this.props;
+    if (trunfoFilter) return cards.filter(({ Supertrunfo }) => Supertrunfo);
+    const filterByNameAndRarity = cards
+      .filter(({ name, rare }) => name.includes(nameFilter) && rare === rarityFilter);
     const filterByName = cards.filter(({ name }) => name.includes(nameFilter));
-    if (rarityFilter === 'todas') return filterByName;
     const raridade = filterByName.filter(({ rare }) => rare === rarityFilter);
-    if (raridade) return raridade;
-    if (trunfoFilter) return cards.filter(({ cardTrunfo }) => cardTrunfo);
-    // cards.filter({ cardTrunfo }) => cardTrunfo);
+    if (nameFilter && rarityFilter) return filterByNameAndRarity;
+    if (rarityFilter === 'todas') return filterByName;
+    if (rarityFilter) return raridade;
   }
 
   render() {

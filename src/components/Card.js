@@ -22,11 +22,10 @@ class Card extends React.Component {
             type="button"
             onClick={ HandleDelete }
             data-testid="delete-button"
-
           >
             Excluir
           </button>
-        ) }
+        )}
       </div>
     );
   }

@@ -17,6 +17,8 @@ const initialState = {
   hasTrunfo: false,
   Supertrunfo: false,
   nameFilter: '',
+  rarityFilter: 'todas',
+  trunfoFilter: 'false',
 };
 class App extends React.Component {
   constructor(props) {
@@ -24,20 +26,15 @@ class App extends React.Component {
     this.state = initialState;
   }
 
-  handleChange =({ target }) => {
+  handleChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState(() => ({ [name]: value }), this.validateSaveButton);
-  }
+  };
 
   onSaveButtonClick = () => {
-    const { name,
-      description,
-      image, rare,
-      attr3,
-      attr2,
-      attr1,
-      Supertrunfo } = this.state;
+    const { name, description, image, rare, attr3,
+      attr2, attr1, Supertrunfo } = this.state;
     const objeto = {
       name,
       description,
@@ -60,7 +57,9 @@ class App extends React.Component {
           attr2: 0,
           attr3: 0,
         }));
-        if (Supertrunfo) this.setState(() => ({ hasTrunfo: true, Supertrunfo: false }));
+        if (Supertrunfo) {
+          this.setState(() => ({ hasTrunfo: true, Supertrunfo: false }));
+        }
       },
     );
     // console.log('objeto',objeto);
@@ -77,7 +76,7 @@ class App extends React.Component {
     const min = 0;
     const max = 90;
 
-    if ((atr1) + (atr2) + (atr3) > (totalSoma)) {
+    if (atr1 + atr2 + atr3 > totalSoma) {
       attr = false;
     }
     if (atr1 > max || attr1 < min) attr = false;
@@ -89,57 +88,77 @@ class App extends React.Component {
     } else {
       this.setState(() => ({ isSaveButtonDisabled: true }));
     }
+  };
+
+  HandleDelete = (index) => {
+    const { cards } = this.state;
+    const filtrarCard = cards.filter((_, i) => i !== index);
+    const card = cards.find((_, i) => i === index);
+    if (card.Supertrunfo) this.setState(() => ({ hasTrunfo: false }));
+    this.setState(() => ({ cards: filtrarCard }));
+  };
+
+  render() {
+    const {
+      name,
+      description,
+      attr1,
+      attr2,
+      attr3,
+      image,
+      rare,
+      hasTrunfo,
+      Supertrunfo,
+      isSaveButtonDisabled,
+      cards,
+      nameFilter,
+      rarityFilter,
+      trunfoFilter,
+    } = this.state;
+    return (
+      <div>
+        <h1>Tryunfo</h1>
+        <Form
+          cardName={ name }
+          cardDescription={ description }
+          cardAttr1={ attr1 }
+          cardAttr2={ attr2 }
+          cardAttr3={ attr3 }
+          cardImage={ image }
+          cardRare={ rare }
+          cardTrunfo={ Supertrunfo }
+          hasTrunfo={ hasTrunfo }
+          isSaveButtonDisabled={ isSaveButtonDisabled }
+          onInputChange={ this.handleChange }
+          onSaveButtonClick={ this.onSaveButtonClick }
+        />
+        <Card
+          cardName={ name }
+          cardDescription={ description }
+          cardAttr1={ attr1 }
+          cardAttr2={ attr2 }
+          cardAttr3={ attr3 }
+          cardImage={ image }
+          cardRare={ rare }
+          cardTrunfo={ Supertrunfo }
+        />
+        {/* {cards.map((card, index) => <Card key={ index } { ...card } />)} */}
+        <AllCards
+          nameFilter={ nameFilter }
+          rarityFilter={ rarityFilter }
+          trunfoFilter={ trunfoFilter }
+          HandleDelete={ this.HandleDelete }
+          cards={ cards }
+        />
+        <Filters
+          nameFilter={ nameFilter }
+          handleChange={ this.handleChange }
+          rarityFilter={ rarityFilter }
+          trunfoFilter={ trunfoFilter }
+        />
+      </div>
+    );
   }
-
-HandleDelete =(index) => {
-  const { cards } = this.state;
-  const filtrarCard = cards.filter((_, i) => i !== index);
-  const card = cards.find((_, i) => i === index);
-  if (card.Supertrunfo) this.setState(() => ({ hasTrunfo: false }));
-  this.setState(() => ({ cards: filtrarCard }));
-}
-
-render() {
-  const { name, description, attr1, attr2, attr3, image, rare,
-    hasTrunfo, Supertrunfo, isSaveButtonDisabled, cards, nameFilter } = this.state;
-  return (
-    <div>
-      <h1>Tryunfo</h1>
-      <Form
-        cardName={ name }
-        cardDescription={ description }
-        cardAttr1={ attr1 }
-        cardAttr2={ attr2 }
-        cardAttr3={ attr3 }
-        cardImage={ image }
-        cardRare={ rare }
-        cardTrunfo={ Supertrunfo }
-        hasTrunfo={ hasTrunfo }
-        isSaveButtonDisabled={ isSaveButtonDisabled }
-        onInputChange={ this.handleChange }
-        onSaveButtonClick={ this.onSaveButtonClick }
-
-      />
-      <Card
-        cardName={ name }
-        cardDescription={ description }
-        cardAttr1={ attr1 }
-        cardAttr2={ attr2 }
-        cardAttr3={ attr3 }
-        cardImage={ image }
-        cardRare={ rare }
-        cardTrunfo={ Supertrunfo }
-      />
-      {/* {cards.map((card, index) => <Card key={ index } { ...card } />)} */}
-      <AllCards
-        cards={ cards }
-        HandleDelete={ this.HandleDelete }
-        nameFilter={ nameFilter }
-      />
-      <Filters nameFilter={ nameFilter } handleChange={ this.handleChange } />
-    </div>
-  );
-}
 }
 
 export default App;

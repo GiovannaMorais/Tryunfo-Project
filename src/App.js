@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
 import AllCards from './components/AllCards';
+import Filters from './components/FIlters';
 
 const initialState = {
   cards: [],
@@ -14,7 +15,8 @@ const initialState = {
   rare: '',
   isSaveButtonDisabled: true,
   hasTrunfo: false,
-  trunfo: false,
+  Supertrunfo: false,
+  nameFilter: '',
 };
 class App extends React.Component {
   constructor(props) {
@@ -29,7 +31,13 @@ class App extends React.Component {
   }
 
   onSaveButtonClick = () => {
-    const { name, description, image, rare, attr3, attr2, attr1, trunfo } = this.state;
+    const { name,
+      description,
+      image, rare,
+      attr3,
+      attr2,
+      attr1,
+      Supertrunfo } = this.state;
     const objeto = {
       name,
       description,
@@ -38,7 +46,7 @@ class App extends React.Component {
       attr3,
       attr2,
       attr1,
-      trunfo,
+      Supertrunfo,
     };
     this.setState(
       ({ cards }) => ({ cards: [...cards, objeto] }),
@@ -52,7 +60,7 @@ class App extends React.Component {
           attr2: 0,
           attr3: 0,
         }));
-        if (trunfo) this.setState(() => ({ hasTrunfo: true, trunfo: false }));
+        if (Supertrunfo) this.setState(() => ({ hasTrunfo: true, Supertrunfo: false }));
       },
     );
     // console.log('objeto',objeto);
@@ -61,13 +69,20 @@ class App extends React.Component {
   validateSaveButton = () => {
     const { name, description, attr1, attr2, attr3, image, rare } = this.state;
     let attr = true;
+    const atr1 = Number(attr1);
+    const atr2 = Number(attr2);
+    const atr3 = Number(attr3);
 
-    if (Number((attr1) + (attr2) + (attr3) > ('210'))) {
+    const totalSoma = 210;
+    const min = 0;
+    const max = 90;
+
+    if ((atr1) + (atr2) + (atr3) > (totalSoma)) {
       attr = false;
     }
-    if (Number(attr1 > '90' || attr1 < 0)) attr = false;
-    if (Number(attr2 > '90' || attr2 < 0)) attr = false;
-    if (Number(attr3 > '90' || attr3 < 0)) attr = false;
+    if (atr1 > max || attr1 < min) attr = false;
+    if (atr2 > max || attr2 < min) attr = false;
+    if (atr3 > max || attr3 < min) attr = false;
 
     if (name && description && image && rare && attr) {
       this.setState(() => ({ isSaveButtonDisabled: false }));
@@ -80,13 +95,13 @@ HandleDelete =(index) => {
   const { cards } = this.state;
   const filtrarCard = cards.filter((_, i) => i !== index);
   const card = cards.find((_, i) => i === index);
-  if (card.trunfo) this.setState(() => ({ hasTrunfo: false }));
+  if (card.Supertrunfo) this.setState(() => ({ hasTrunfo: false }));
   this.setState(() => ({ cards: filtrarCard }));
 }
 
 render() {
   const { name, description, attr1, attr2, attr3, image, rare,
-    hasTrunfo, trunfo, isSaveButtonDisabled, cards } = this.state;
+    hasTrunfo, Supertrunfo, isSaveButtonDisabled, cards, nameFilter } = this.state;
   return (
     <div>
       <h1>Tryunfo</h1>
@@ -98,7 +113,7 @@ render() {
         cardAttr3={ attr3 }
         cardImage={ image }
         cardRare={ rare }
-        cardTrunfo={ trunfo }
+        cardTrunfo={ Supertrunfo }
         hasTrunfo={ hasTrunfo }
         isSaveButtonDisabled={ isSaveButtonDisabled }
         onInputChange={ this.handleChange }
@@ -113,10 +128,15 @@ render() {
         cardAttr3={ attr3 }
         cardImage={ image }
         cardRare={ rare }
-        cardTrunfo={ trunfo }
+        cardTrunfo={ Supertrunfo }
       />
       {/* {cards.map((card, index) => <Card key={ index } { ...card } />)} */}
-      <AllCards cards={ cards } HandleDelete={ this.HandleDelete } />
+      <AllCards
+        cards={ cards }
+        HandleDelete={ this.HandleDelete }
+        nameFilter={ nameFilter }
+      />
+      <Filters nameFilter={ nameFilter } handleChange={ this.handleChange } />
     </div>
   );
 }

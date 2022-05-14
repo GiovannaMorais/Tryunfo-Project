@@ -32,9 +32,9 @@ class App extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
     if (target.type === 'checkbox') {
-      console.log(target);
-      console.log('value', value);
-      console.log('name', name);
+      // console.log(target);
+      // console.log('value', value);
+      // console.log('name', name);
     }
     this.setState(() => ({ [name]: value }), this.validateSaveButton);
   };

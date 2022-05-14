@@ -13,9 +13,9 @@ class AllCards extends React.Component {
     }
 
     if (boolFilter) {
-      const x = cards.filter(({ Supertrunfo }) => Supertrunfo);
-      console.log('x', x);
-      return x;
+      const trunfo = cards.filter(({ Supertrunfo }) => Supertrunfo);
+      // console.log('trunfo', trunfo);
+      return trunfo;
     }
     const filterByName = cards.filter(({ name }) => name.includes(nameFilter));
     if (rarityFilter === 'todas') return filterByName;
@@ -39,42 +39,41 @@ class AllCards extends React.Component {
   // }
 
   render() {
-    const { cards, HandleDelete } = this.props;
+    const { HandleDelete } = this.props;
 
     return (
       <div>
-        {cards
-          && cards.length !== 0
-          && this.RarityAndTrunfoFilter()
-            .map(
-              (
-                {
-                  name,
-                  description,
-                  attr1,
-                  attr2,
-                  attr3,
-                  image,
-                  rare,
-                  Supertrunfo,
-                },
-                index,
-              ) => (
-                <Card
-                  key={ `${index}-${name}` }
-                  cardName={ name }
-                  cardDescription={ description }
-                  cardAttr1={ attr1 }
-                  cardAttr2={ attr2 }
-                  cardAttr3={ attr3 }
-                  cardImage={ image }
-                  cardRare={ rare }
-                  cardTrunfo={ Supertrunfo }
-                  btnDelete
-                  HandleDelete={ () => HandleDelete(index) }
-                />
-              ),
-            )}
+
+        {this.RarityAndTrunfoFilter()
+          .map(
+            (
+              {
+                name,
+                description,
+                attr1,
+                attr2,
+                attr3,
+                image,
+                rare,
+                Supertrunfo,
+              },
+              index,
+            ) => (
+              <Card
+                key={ `${index}-${name}` }
+                cardName={ name }
+                cardDescription={ description }
+                cardAttr1={ attr1 }
+                cardAttr2={ attr2 }
+                cardAttr3={ attr3 }
+                cardImage={ image }
+                cardRare={ rare }
+                cardTrunfo={ Supertrunfo }
+                btnDelete
+                HandleDelete={ () => HandleDelete(index) }
+              />
+            ),
+          )}
       </div>
     );
   }

@@ -6,6 +6,12 @@ class Filters extends React.Component {
   render() {
     // const { cards } = this.state;
     const { nameFilter, handleChange, rarityFilter, trunfoFilter } = this.props;
+    let boolFilter = trunfoFilter;
+
+    if (typeof boolFilter === 'string') {
+      boolFilter = boolFilter === 'true';
+    }
+
     return (
       <div>
         <label htmlFor="nameFilter">
@@ -15,7 +21,7 @@ class Filters extends React.Component {
             data-testid="name-filter"
             name="nameFilter"
             value={ nameFilter }
-            disabled={ trunfoFilter }
+            disabled={ boolFilter }
             onChange={ handleChange }
           />
         </label>
@@ -27,7 +33,7 @@ class Filters extends React.Component {
             defaultChecked="todas"
             value={ rarityFilter }
             onChange={ handleChange }
-            disabled={ trunfoFilter }
+            disabled={ boolFilter }
           >
 
             <option value="todas">todas</option>
@@ -38,14 +44,16 @@ class Filters extends React.Component {
 
         </label>
         <label htmlFor="trunfoFilter">
-          <p>Filtrar por Trunfo:</p>
+
           <input
             onChange={ handleChange }
-            checked={ trunfoFilter }
+            checked={ boolFilter }
             name="trunfoFilter"
             data-testid="trunfo-filter"
             type="checkbox"
+            id="trunfoFilter"
           />
+          Filtrar por Trunfo:
         </label>
 
       </div>

@@ -5,15 +5,38 @@ import Card from './Card';
 class AllCards extends React.Component {
   RarityAndTrunfoFilter=() => {
     const { cards, nameFilter, rarityFilter, trunfoFilter } = this.props;
-    if (trunfoFilter) return cards.filter(({ Supertrunfo }) => Supertrunfo);
-    const filterByNameAndRarity = cards
-      .filter(({ name, rare }) => name.includes(nameFilter) && rare === rarityFilter);
+
+    let boolFilter = trunfoFilter;
+
+    if (typeof boolFilter === 'string') {
+      boolFilter = boolFilter === 'true';
+    }
+
+    if (boolFilter) {
+      const x = cards.filter(({ Supertrunfo }) => Supertrunfo);
+      console.log('x', x);
+      return x;
+    }
     const filterByName = cards.filter(({ name }) => name.includes(nameFilter));
-    const raridade = filterByName.filter(({ rare }) => rare === rarityFilter);
-    if (nameFilter && rarityFilter) return filterByNameAndRarity;
     if (rarityFilter === 'todas') return filterByName;
+    const raridade = filterByName.filter(({ rare }) => rare === rarityFilter);
     if (rarityFilter) return raridade;
+    // cards.filter({ cardTrunfo }) => cardTrunfo);
   }
+
+  // let cardFilter = cards;
+
+  // RarityAndTrunfoFilter=() => {
+  //   const { cards, nameFilter, rarityFilter, trunfoFilter } = this.props;
+  //   if (trunfoFilter) return cards.filter(({ Supertrunfo }) => Supertrunfo);
+  //   const filterByNameAndRarity = cards
+  //     .filter(({ name, rare }) => name.includes(nameFilter) && rare === rarityFilter);
+  //   const filterByName = cards.filter(({ name }) => name.includes(nameFilter));
+  //   const raridade = filterByName.filter(({ rare }) => rare === rarityFilter);
+  //   if (nameFilter && rarityFilter) return filterByNameAndRarity;
+  //   if (rarityFilter === 'todas') return filterByName;
+  //   if (rarityFilter) return raridade;
+  // }
 
   render() {
     const { cards, HandleDelete } = this.props;
@@ -62,5 +85,6 @@ AllCards.propTypes = {
   nameFilter: PropTypes.string.isRequired,
   rarityFilter: PropTypes.string.isRequired,
   trunfoFilter: PropTypes.bool.isRequired,
+  // cardFilter: PropTypes.string.isRequired,
 };
 export default AllCards;
